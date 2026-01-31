@@ -12,11 +12,12 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
-    overflow: hidden; 
     width: 100%;
-    /* O padding aqui é importante para o celular */
     padding: 20px;
+
+    height: 100svh;
+    overflow: hidden;
+    position: fixed;
 }
 
 body::before {
@@ -26,36 +27,32 @@ body::before {
     left: 0;
     width: 100%;
     height: 100%;
-    /* Gradiente do Dark Mode */
     background: linear-gradient(40deg, #341f9c, #000000);
     opacity: 0;
-    /* Começa invisível */
     transition: opacity 2s ease;
     z-index: -1;
-    /* Fica atrás de tudo */
 }
 
 .box {
     width: 100%;
     max-width: 450px;
     height: 90vh;
-    /* Altura total da janela do chat */
     background: rgba(0, 0, 0, 0.066);
     backdrop-filter: blur(15px);
     border-radius: 25px;
     display: flex;
     flex-direction: column;
-    /* Organiza topo, chat e footer em coluna */
     overflow: hidden;
-    /* Impede que a 'janela' principal role */
     border: 1px solid rgba(255, 255, 255, 0.3);
     box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+    width: 92%; 
+    max-width: 450px;
+    height: 85svh;
+    margin: auto;
 }
 
-/* Navegação fixa no topo */
 .nav {
     flex-shrink: 0;
-    /* Impede de amassar */
     background: #7367f0;
     padding: 15px 20px;
     display: flex;
@@ -85,12 +82,9 @@ body::before {
     color: rgba(255, 255, 255, 0.6);
 }
 
-/* --- ÁREA ROLÁVEL --- */
 .chat {
     flex: 1;
-    /* Ocupa todo o espaço restante entre nav e footer */
     overflow-y: auto;
-    /* Ativa o scroll apenas aqui */
     padding: 20px;
     display: flex;
     flex-direction: column;
@@ -124,10 +118,8 @@ body::before {
     margin-bottom: 15px;
 }
 
-/* Rodapé fixo embaixo */
 .footer {
     flex-shrink: 0;
-    /* Impede de amassar */
     padding: 15px;
     display: flex;
     gap: 10px;
@@ -148,18 +140,14 @@ body::before {
     max-height: 150px;
     font-size: 1rem;
     font-family: inherit;
-    /* Isso garante que qualquer mudança de cor leve 2s */
     transition: all 2s ease;
 }
 
-/* Cor padrão do placeholder (Modo Claro) */
 .footer textarea::placeholder {
     color: #7366c9;
     transition: color 2s ease;
-    /* Transição direta aqui também */
 }
 
-/* Esconde a barra especificamente em navegadores Webkit (Chrome/Safari) */
 .footer textarea::-webkit-scrollbar {
     display: none;
 }
@@ -184,7 +172,6 @@ body::before {
     background: #7367f0;
 }
 
-/* Personalização do Scroll (Barra de rolagem) */
 .chat::-webkit-scrollbar {
     width: 5px;
 }
@@ -197,12 +184,10 @@ body::before {
 /*--Mode--*/
 .darkmode {
 
-    /* Altera a cor do texto "Digite" */
     .footer textarea::placeholder {
         color: #ffffff !important;
     }
 
-    /* Garante que funcione em navegadores diferentes (Firefox/IE) */
     .footer textarea::-webkit-input-placeholder {
         color: #ffffff !important;
     }
@@ -223,22 +208,26 @@ body::before {
 
 body.darkmode::before {
     opacity: 1;
-    /* Fica visível em 2 segundos */
 }
 
-/* Configuração para Celulares */
 @media (max-width: 600px) {
     body {
-        padding: 15px; /* Cria um respiro entre a caixa e a borda do celular */
+        padding: 15px;
     }
 
     .box {
-        height: 85vh; /* Diminui um pouco a altura para não colar no topo/fundo */
-        width: 95%;   /* Garante que ela não encoste nas laterais */
-        border-radius: 20px; /* Arredonda um pouco mais para destacar o fundo */
+        height: 80svh;
+        width: 95%;
+        border-radius: 20px;
     }
     
     .nav {
-        padding: 10px 15px; /* Encolhe um pouco o topo no celular */
+        padding: 10px 15px;
+    }
+}
+
+@media (max-height: 500px) {
+    .box {
+        height: 80svh;
     }
 }

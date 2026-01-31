@@ -2,13 +2,10 @@ const inputMsg = document.getElementById('inputText');
 const btnSubmit = document.getElementById('submit');
 const chatContainer = document.querySelector('.chat');
 
-// 1. ADICIONADO: Carrega as mensagens E o tema ao abrir o site
 window.onload = () => {
-    // Carrega mensagens
     let historico = JSON.parse(localStorage.getItem('chat_nikolas')) || [];
     historico.forEach(msg => adicionarMensagem(msg.texto, msg.classe, false));
 
-    // Carrega o modo (Escuro ou Claro)
     const modoSalvo = localStorage.getItem('modo_escuro');
     if (modoSalvo === 'ativado') {
         document.body.classList.add('darkmode');
@@ -70,9 +67,7 @@ inputMsg.addEventListener('keypress', (e) => {
     }
 });
 
-// ... Função de transcrição (voz) continua a mesma ...
 function transcricao() {
-    // 1. Verifica se o navegador suporta voz
     const Recognition = window.SpeechRecognition || window.webkitSpeechRecognition;
     
     if (!Recognition) {
@@ -82,9 +77,8 @@ function transcricao() {
 
     const voz = new Recognition();
     voz.lang = "pt-BR";
-    voz.interimResults = false; // Só manda o resultado final
+    voz.interimResults = false;
 
-    // Feedback visual opcional: mudar a cor do botão enquanto ouve
     const btnVoz = document.querySelector('.fa-microphone')?.parentElement;
     if (btnVoz) btnVoz.style.background = "#ff4757";
 
@@ -93,15 +87,12 @@ function transcricao() {
     voz.onresult = function (evento) {
         let textoTranscrito = evento.results[0][0].transcript;
         
-        // CORREÇÃO: Para textarea usamos .value, não .innerText
         inputMsg.value = textoTranscrito;
         
-        // DISPARA A IA: Já envia o que ele ouviu automaticamente
         chamarIA();
     };
 
     voz.onend = function() {
-        // Volta a cor normal do botão quando terminar de ouvir
         if (btnVoz) btnVoz.style.background = "rgba(255, 255, 255, 0.3)";
     };
 
@@ -113,11 +104,9 @@ function transcricao() {
 const BtnMode = document.getElementById("BtnMode")
 BtnMode.addEventListener("click", Mode)
 
-// 2. AJUSTADO: Salva a preferência no LocalStorage toda vez que clica
 function Mode() {
     document.body.classList.toggle('darkmode');
 
-    // Verifica se a classe 'darkmode' está ativa e salva
     if (document.body.classList.contains('darkmode')) {
         localStorage.setItem('modo_escuro', 'ativado');
     } else {
