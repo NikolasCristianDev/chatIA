@@ -1,0 +1,223 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #8971ff;
+    background-image: linear-gradient(40deg, #8971ff, #cdc1ff);
+    background-attachment: fixed;
+    transition: background-color 2s ease, background-image 2s ease;
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* Gradiente do Dark Mode */
+    background: linear-gradient(40deg, #341f9c, #000000);
+    opacity: 0;
+    /* Começa invisível */
+    transition: opacity 2s ease;
+    z-index: -1;
+    /* Fica atrás de tudo */
+}
+
+.box {
+    width: 100%;
+    max-width: 450px;
+    height: 90vh;
+    /* Altura total da janela do chat */
+    background: rgba(0, 0, 0, 0.066);
+    backdrop-filter: blur(15px);
+    border-radius: 25px;
+    display: flex;
+    flex-direction: column;
+    /* Organiza topo, chat e footer em coluna */
+    overflow: hidden;
+    /* Impede que a 'janela' principal role */
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+}
+
+/* Navegação fixa no topo */
+.nav {
+    flex-shrink: 0;
+    /* Impede de amassar */
+    background: #7367f0;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nav .IA {
+    color: white;
+    font-weight: bold;
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.nav .circulos {
+    display: flex;
+    gap: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.nav .circulos i {
+    font-size: 20px;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+/* --- ÁREA ROLÁVEL --- */
+.chat {
+    flex: 1;
+    /* Ocupa todo o espaço restante entre nav e footer */
+    overflow-y: auto;
+    /* Ativa o scroll apenas aqui */
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+
+.chat p {
+    padding: 12px 18px;
+    border-radius: 20px;
+    font-size: 1rem;
+    margin: 0;
+    max-width: 85%;
+    line-height: 1.4;
+    position: relative;
+    overflow-wrap: anywhere;
+}
+
+.chat .User {
+    align-self: flex-end;
+    background: #9181f4;
+    color: white;
+    border-bottom-right-radius: 4px;
+    margin-bottom: 15px;
+}
+
+.chat .IA {
+    align-self: flex-start;
+    background: rgba(255, 255, 255, 0.228);
+    color: white;
+    border-bottom-left-radius: 4px;
+    margin-bottom: 15px;
+}
+
+/* Rodapé fixo embaixo */
+.footer {
+    flex-shrink: 0;
+    /* Impede de amassar */
+    padding: 15px;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.footer textarea {
+    flex: 1;
+    background: rgba(255, 255, 255, 0.3);
+    border: none;
+    border-radius: 20px;
+    padding: 12px 20px;
+    color: white;
+    outline: none;
+    resize: none;
+    height: 45px;
+    max-height: 150px;
+    font-size: 1rem;
+    font-family: inherit;
+    /* Isso garante que qualquer mudança de cor leve 2s */
+    transition: all 2s ease;
+}
+
+/* Cor padrão do placeholder (Modo Claro) */
+.footer textarea::placeholder {
+    color: #7366c9;
+    transition: color 2s ease;
+    /* Transição direta aqui também */
+}
+
+/* Esconde a barra especificamente em navegadores Webkit (Chrome/Safari) */
+.footer textarea::-webkit-scrollbar {
+    display: none;
+}
+
+.footer .btns {
+    display: flex;
+    gap: 5px;
+}
+
+.footer button {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(255, 255, 255, 0.3);
+    color: white;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.footer button:hover {
+    background: #7367f0;
+}
+
+/* Personalização do Scroll (Barra de rolagem) */
+.chat::-webkit-scrollbar {
+    width: 5px;
+}
+
+.chat::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 10px;
+}
+
+/*--Mode--*/
+.darkmode {
+
+    /* Altera a cor do texto "Digite" */
+    .footer textarea::placeholder {
+        color: #ffffff !important;
+    }
+
+    /* Garante que funcione em navegadores diferentes (Firefox/IE) */
+    .footer textarea::-webkit-input-placeholder {
+        color: #ffffff !important;
+    }
+
+    .footer textarea:-ms-input-placeholder {
+        color: #ffffff !important;
+    }
+
+    #BtnMode {
+        color: #00000094 !important;
+    }
+}
+
+#BtnMode:hover {
+    color: #00000083 !important;
+    cursor: pointer;
+}
+
+body.darkmode::before {
+    opacity: 1;
+    /* Fica visível em 2 segundos */
+}

@@ -1,0 +1,140 @@
+const inputMsg = document.getElementById('inputText');
+const btnSubmit = document.getElementById('submit');
+const chatContainer = document.querySelector('.chat');
+
+// 1. ADICIONADO: Carrega as mensagens E o tema ao abrir o site
+window.onload = () => {
+    // Carrega mensagens
+    let historico = JSON.parse(localStorage.getItem('chat_nikolas')) || [];
+    historico.forEach(msg => adicionarMensagem(msg.texto, msg.classe, false));
+
+    // Carrega o modo (Escuro ou Claro)
+    const modoSalvo = localStorage.getItem('modo_escuro');
+    if (modoSalvo === 'ativado') {
+        document.body.classList.add('darkmode');
+    }
+};
+
+async function chamarIA() {
+    const textoUsuario = inputMsg.value.trim();
+    if (textoUsuario === "") return;
+
+    adicionarMensagem(textoUsuario, 'User');
+    inputMsg.value = "";
+    inputMsg.focus();
+
+    const keyIA = "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";
+    const url = "https://api.groq.com/openai/v1/chat/completions";
+
+    try {
+        const resposta = await fetch(url, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${keyIA}`
+            },
+            body: JSON.stringify({
+                "model": "llama-3.3-70b-versatile", 
+                "messages": [{ "role": "user", "content": 'msg1: '+ textoUsuario+'.  msg2: Se alguém perguntar sobre sua identidade ou nome, responda que é NikolasIA. Se perguntarem quem criou você, diga que o chat ou site foi feito pelo nikolasdev. Nikolas namora com a ANA PAULA, tem 18 anos e mora em Tianguá. nome da sua mae é Waneyla e do pai dele é Cristiano e a ana paula ta devendo 230 reais para o nikolas. a e sua mae waneyla deve 60 reais da matricula do henzo Responda apenas a msg1.'}]
+            })
+        });
+
+        const dados = await resposta.json();
+        if (dados.choices && dados.choices[0]) {
+            adicionarMensagem(dados.choices[0].message.content, 'IA');
+        }
+    } catch (erro) {
+        adicionarMensagem("Erro ao conectar.", 'IA');
+    }
+}
+
+function adicionarMensagem(texto, classe, salvar = true) {
+    const novoParagrafo = document.createElement('p');
+    novoParagrafo.classList.add(classe);
+    novoParagrafo.textContent = texto;
+    chatContainer.appendChild(novoParagrafo);
+    chatContainer.scrollTop = chatContainer.scrollHeight;
+
+    if (salvar) {
+        let historico = JSON.parse(localStorage.getItem('chat_nikolas')) || [];
+        historico.push({ texto, classe });
+        localStorage.setItem('chat_nikolas', JSON.stringify(historico));
+    }
+}
+
+btnSubmit.addEventListener('click', chamarIA);
+inputMsg.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        chamarIA();
+    }
+});
+
+// ... Função de transcrição (voz) continua a mesma ...
+function transcricao() {
+    // 1. Verifica se o navegador suporta voz
+    const Recognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    
+    if (!Recognition) {
+        alert("Seu navegador não suporta reconhecimento de voz.");
+        return;
+    }
+
+    const voz = new Recognition();
+    voz.lang = "pt-BR";
+    voz.interimResults = false; // Só manda o resultado final
+
+    // Feedback visual opcional: mudar a cor do botão enquanto ouve
+    const btnVoz = document.querySelector('.fa-microphone')?.parentElement;
+    if (btnVoz) btnVoz.style.background = "#ff4757";
+
+    voz.start();
+
+    voz.onresult = function (evento) {
+        let textoTranscrito = evento.results[0][0].transcript;
+        
+        // CORREÇÃO: Para textarea usamos .value, não .innerText
+        inputMsg.value = textoTranscrito;
+        
+        // DISPARA A IA: Já envia o que ele ouviu automaticamente
+        chamarIA();
+    };
+
+    voz.onend = function() {
+        // Volta a cor normal do botão quando terminar de ouvir
+        if (btnVoz) btnVoz.style.background = "rgba(255, 255, 255, 0.3)";
+    };
+
+    voz.onerror = function(event) {
+        console.error("Erro na voz: ", event.error);
+    };
+}
+
+const BtnMode = document.getElementById("BtnMode")
+BtnMode.addEventListener("click", Mode)
+
+// 2. AJUSTADO: Salva a preferência no LocalStorage toda vez que clica
+function Mode() {
+    document.body.classList.toggle('darkmode');
+
+    // Verifica se a classe 'darkmode' está ativa e salva
+    if (document.body.classList.contains('darkmode')) {
+        localStorage.setItem('modo_escuro', 'ativado');
+    } else {
+        localStorage.setItem('modo_escuro', 'desativado');
+    }
+}
+
+const btnLimpar = document.getElementById('clear');
+
+function limparHistorico() {
+    localStorage.removeItem('chat_nikolas');
+    chatContainer.innerHTML = "";
+    console.log("Histórico de mensagens da NikolasIA foi resetado.");
+}
+
+btnLimpar.addEventListener('click', () => {
+    if (confirm("Deseja apagar todo o histórico da conversa?")) {
+        limparHistorico();
+    }
+});
