@@ -13,10 +13,10 @@ body {
     justify-content: center;
     align-items: center;
     height: 100vh;
-    /* ADICIONE ISSO AQUI: */
     overflow: hidden; 
-    position: fixed; /* Garante que o body não saia do lugar em celulares */
     width: 100%;
+    /* O padding aqui é importante para o celular */
+    padding: 20px;
 }
 
 body::before {
@@ -226,3 +226,19 @@ body.darkmode::before {
     /* Fica visível em 2 segundos */
 }
 
+/* Configuração para Celulares */
+@media (max-width: 600px) {
+    body {
+        padding: 15px; /* Cria um respiro entre a caixa e a borda do celular */
+    }
+
+    .box {
+        height: 85vh; /* Diminui um pouco a altura para não colar no topo/fundo */
+        width: 95%;   /* Garante que ela não encoste nas laterais */
+        border-radius: 20px; /* Arredonda um pouco mais para destacar o fundo */
+    }
+    
+    .nav {
+        padding: 10px 15px; /* Encolhe um pouco o topo no celular */
+    }
+}
