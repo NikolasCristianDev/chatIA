@@ -201,6 +201,11 @@ body::before {
     }
 }
 
+#clear:hover {
+    color: #ff0000ca !important;
+    cursor: pointer;
+}
+
 #BtnMode:hover {
     color: #00000083 !important;
     cursor: pointer;
