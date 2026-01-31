@@ -13,6 +13,10 @@ body {
     justify-content: center;
     align-items: center;
     height: 100vh;
+    /* ADICIONE ISSO AQUI: */
+    overflow: hidden; 
+    position: fixed; /* Garante que o body não saia do lugar em celulares */
+    width: 100%;
 }
 
 body::before {
@@ -221,3 +225,4 @@ body.darkmode::before {
     opacity: 1;
     /* Fica visível em 2 segundos */
 }
+
