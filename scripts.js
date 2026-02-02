@@ -20,7 +20,7 @@ async function chamarIA() {
     inputMsg.value = "";
     inputMsg.focus();
 
-    const keyIA = "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";
+    const keyIA = "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";
     const url = "https://api.groq.com/openai/v1/chat/completions";
 
     try {
