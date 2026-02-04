@@ -32,7 +32,7 @@ async function chamarIA() {
             },
             body: JSON.stringify({
                 "model": "llama-3.3-70b-versatile", 
-                "messages": [{ "role": "user", "content": 'msg1: '+ textoUsuario+'.  msg2: Se alguém perguntar sobre sua identidade ou nome, responda que é NikolasIA. Se perguntarem quem criou você, diga que o chat ou site foi feito pelo nikolasdev. Nikolas namora com a ANA PAULA, tem 18 anos e mora em Tianguá. nome da sua mae é Waneyla e do pai dele é Cristiano. Responda apenas a msg1.'}]
+                "messages": [{ "role": "user", "content": 'msg1: '+ textoUsuario+'.  msg2: Se alguém perguntar sobre sua identidade ou nome, responda que é NikolasIA. Se perguntarem quem criou você, diga que o chat ou site foi feito pelo nikolasdev. Responda apenas a msg1.'}]
             })
         });
 
